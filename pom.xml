@@ -11,6 +11,8 @@
     <modules>
         <module>guava-cache</module>
         <module>desion-pattern</module>
+        <module>untitledj</module>
+        <module>java-basics</module>
     </modules>
 
 
