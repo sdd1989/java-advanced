@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <RollingRandomAccessFile name="local-log"
+                                 fileName="demo.log"
+                                 filePattern="demo.log.%d{yyyyMMdd}.gz"
+                                 append="true" immediateFlush="false">
+            <PatternLayout
+                    pattern="[%traceId] [%-5p %d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %l [%c{1}.%M] [%m]%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncRoot level="debug">
+            <AppenderRef ref="local-log"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

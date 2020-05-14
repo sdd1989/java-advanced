@@ -8,6 +8,14 @@ package com.ql;
 public class InheritTest {
 
     public static void main(String[] args) {
+//        SpecificHandler2 handler = new SpecificHandler2();
 
+        SpecificHandler2 handler = new SpecificHandler2();
+        BaseParam param = new BaseParam();
+//        SpecificHandler handler = new SpecificHandler<SubParam>();
+//        SubParam param = new SubParam();
+
+        param.setName("qiuliang");
+        handler.excute(param);
     }
 }

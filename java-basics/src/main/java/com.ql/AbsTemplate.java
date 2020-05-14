@@ -15,6 +15,6 @@ public abstract class AbsTemplate<T extends BaseParam> {
     protected abstract void method2(T params);
 
     private void method1() {
-
+        System.out.println("com.ql.AbsTemplate.method1");
     }
 }
