@@ -14,7 +14,7 @@
     </Appenders>
 
     <Loggers>
-        <AsyncRoot level="debug">
+        <AsyncRoot level="info">
             <AppenderRef ref="local-log"/>
         </AsyncRoot>
     </Loggers>

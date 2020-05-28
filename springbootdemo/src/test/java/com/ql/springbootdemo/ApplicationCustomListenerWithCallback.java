@@ -1,4 +1,4 @@
-package com.ql.springbootdemo.listener;
+package com.ql.springbootdemo;
 
 import com.ql.springbootdemo.event.CustomEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +12,15 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class ApplicationCustomListener implements ApplicationListener<CustomEvent> {
+public class ApplicationCustomListenerWithCallback implements ApplicationListener<CustomEvent> {
     @Override
     public void onApplicationEvent(CustomEvent customEvent) {
         log.info("onApplicationEvent:{}", customEvent);
         Object object = customEvent.getSource();
+        if (object instanceof SpringbootdemoApplicationTests) {
+            SpringbootdemoApplicationTests test = ((SpringbootdemoApplicationTests) object);
+            test.callbackEvent();
+        }
+
     }
 }

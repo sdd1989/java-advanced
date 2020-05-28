@@ -1,4 +1,4 @@
-package com.ql.springbootdemo;
+package com.ql.springbootdemo.listener;
 
 import com.ql.springbootdemo.event.CustomEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -16,5 +16,6 @@ public class ApplicationCustomListener implements ApplicationListener<CustomEven
     @Override
     public void onApplicationEvent(CustomEvent customEvent) {
         log.info("onApplicationEvent:{}", customEvent);
+        Object object = customEvent.getSource();
     }
 }
