@@ -59,6 +59,7 @@ public class CacheTest {
 //        } else {
 //            return key;
 //        }
+        System.out.println("createExpensiveGraph");
         return map.get(key);
     }
 
