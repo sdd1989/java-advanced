@@ -20,14 +20,14 @@ public class FreemarkerStringTemplateTest {
     public static void main(String[] args) throws IOException, TemplateException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
         StringTemplateLoader stringLoader = new StringTemplateLoader();
-//        stringLoader.putTemplate("myTemplate", "hello,${name},your age is ${age}");
-        stringLoader.putTemplate("myTemplate", "hello,sdd,your age is 23");
+        stringLoader.putTemplate("myTemplate", "bikan://goto/openFansList?userId=${userId?c}&docId=auto_push_focus");
+//        stringLoader.putTemplate("myTemplate", "hello,sdd,your age is 23");
         cfg.setTemplateLoader(stringLoader);
         Template template = cfg.getTemplate("myTemplate");
         Map root = new HashMap();
-        root.put("name","sdd");
-        root.put("age",23);
-        root.put("remark","xxx");
+        root.put("userId",262173);
+//        root.put("age",23);
+//        root.put("remark","xxx");
         Writer out = new StringWriter(2048);
         template.process(root, out);
         out.flush();

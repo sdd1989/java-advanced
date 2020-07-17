@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ApplicationCustomListener implements ApplicationListener<CustomEvent> {
+
     @Override
     public void onApplicationEvent(CustomEvent customEvent) {
         log.info("onApplicationEvent:{}", customEvent);
         Object object = customEvent.getSource();
+        log.info("{}", object);
     }
 }

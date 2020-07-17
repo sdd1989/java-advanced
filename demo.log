@@ -1,10 +1,23 @@
-[mainraceId] [INFO  2020-05-28 11:11:09.894] [main]  [LamdaTest.] []
-[mainraceId] [INFO  2020-05-28 11:11:32.878] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:13:27.372] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:14:17.608] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:15:04.032] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:16:44.707] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:16:58.639] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:25:55.655] [main]  [LamdaTest.] [mapResult:{name=sdd, age=23}]
-[mainraceId] [INFO  2020-05-28 11:26:07.452] [main]  [LamdaTest.] [mapResult:{name=gml, age=22}]
-[mainraceId] [INFO  2020-05-28 11:30:55.427] [main]  [LamdaTest.] [mapResult:{name=sdd,gml, age=23,22}]
+[mainraceId] [ERROR 2020-06-29 17:14:50.094] [main]  [runtime.] [Error executing FreeMarker template]
+freemarker.core.InvalidReferenceException: The following has evaluated to null or missing:
+==> age  [in template "myTemplate" at line 1, column 29]
+
+----
+Tip: If the failing expression is known to legally refer to something that's sometimes null or missing, either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??
+----
+
+----
+FTL stack trace ("~" means nesting-related):
+	- Failed at: ${age}  [in template "myTemplate" at line 1, column 27]
+----
+	at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceException.java:134) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:481) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:401) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:370) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.DollarVariable.calculateInterpolatedStringOrMarkup(DollarVariable.java:100) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.DollarVariable.accept(DollarVariable.java:63) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.Environment.visit(Environment.java:334) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.Environment.visit(Environment.java:340) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.core.Environment.process(Environment.java:313) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.template.Template.process(Template.java:383) ~[freemarker-2.3.30.jar:2.3.30]
+	at com.ql.freemaker.FreemarkerStringTemplateTest.main(FreemarkerStringTemplateTest.java:32) ~[classes/:?]
