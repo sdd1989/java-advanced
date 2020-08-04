@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>guava-cache</module>
-        <module>desion-pattern</module>
+        <module>design-pattern</module>
         <module>java-basics</module>
         <module>springbootdemo</module>
         <module>rxjava2</module>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <version>1.18.8</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

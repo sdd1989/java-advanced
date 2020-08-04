@@ -1,15 +1,11 @@
 package com.ql;
 
 import com.google.common.cache.*;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
-import org.omg.CORBA.TIMEOUT;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -242,6 +238,74 @@ public class CacheTest3 {
 
     private boolean neverNeedsRefresh(String key) {
         return false;
+    }
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    @Test
+    public void testCallable() throws InterruptedException {
+        Cache<String, String> cache = CacheBuilder.newBuilder()
+                .maximumSize(1000)
+                .build(); // look Ma, no CacheLoader
+
+        for (int i = 0; i < 5; i++) {
+            executorService.submit(() -> {
+                // If the key wasn't in the "easy to compute" group, we need to
+                // do things the hard way.
+                try {
+                    String value = cache.get("key1", new Callable<String>() {
+                        @Override
+                        public String call() throws Exception {
+                            return getValueOnCallable("key1");
+                        }
+                    });
+                    System.out.println(Thread.currentThread().getName() + " " + value);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        TimeUnit.SECONDS.sleep(10);
+    }
+
+    @Test
+    public void testExpirevsRefresh() throws InterruptedException {
+        LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+                .maximumSize(1000)
+                //.expireAfterWrite(1,TimeUnit.SECONDS)
+                .refreshAfterWrite(1,TimeUnit.SECONDS)
+                .build(new CacheLoader<String, String>() {
+                    @Override
+                    public String load(String key) throws InterruptedException { // no checked exception
+                        return loadValue(key);
+                    }
+                });
+        cache.put("key1", "value1");
+        TimeUnit.SECONDS.sleep(1);
+        for (int i = 0; i < 5; i++) {
+            executorService.submit(() -> {
+                String value = cache.getUnchecked("key1");
+                System.out.println(Thread.currentThread().getName() + " " + value);
+            });
+        }
+
+        TimeUnit.SECONDS.sleep(10);
+    }
+
+    private String loadValue(String key) throws InterruptedException {
+        map.put(key, "value1'");
+        String value = map.get(key);
+        System.out.println("load:" + Thread.currentThread().getName() + " " + value);
+        return value;
+    }
+
+    private String getValueOnCallable(String key) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+        map.put(key, "value1'");
+        String value = map.get(key);
+        System.out.println("getValueOnCallable:" + Thread.currentThread().getName() + " " + value);
+        return value;
     }
 
     @Test
