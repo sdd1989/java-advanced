@@ -14,6 +14,8 @@
         <module>java-basics</module>
         <module>springbootdemo</module>
         <module>rxjava2</module>
+        <module>springcloud-gateway</module>
+        <module>java8</module>
     </modules>
     <dependencies>
         <dependency>

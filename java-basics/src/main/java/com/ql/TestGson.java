@@ -49,13 +49,15 @@ public class TestGson {
 //        };
 //        Map<String, InviteNotice> map = GSON.fromJson(json, typeToken.getType());
 //        System.out.println(map);
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse("{\n" +
-                "    \"docId\":\"abc\",\n" +
-                "    \"name\":\"sdd\"\n" +
-                "}").getAsJsonObject();
-        String docId = jsonObject.get("docId").getAsString();
-        System.out.println(docId);
+//        JsonParser parser = new JsonParser();
+//        JsonObject jsonObject = parser.parse("{\n" +
+//                "    \"docId\":\"abc\",\n" +
+//                "    \"name\":\"sdd\"\n" +
+//                "}").getAsJsonObject();
+//        String docId = jsonObject.get("docId").getAsString();
+//        System.out.println(docId);
+        InviteNotice inviteNotice = GSON.fromJson("", InviteNotice.class);
+        System.out.println(inviteNotice);
     }
 
     @Data

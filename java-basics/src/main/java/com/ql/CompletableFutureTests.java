@@ -88,13 +88,10 @@ public class CompletableFutureTests {
                 System.out.println(Thread.currentThread().getName() + "===result1="+result);
                 return result;
             }
-        }).thenApply(new Function<Long, Long>() {
-            @Override
-            public Long apply(Long t) {
-                long result = t*5;
-                System.out.println(Thread.currentThread().getName() + "===result2="+result);
-                return result;
-            }
+        }).thenApply(t -> {
+            long result = t*5;
+            System.out.println(Thread.currentThread().getName() + "===result2="+result);
+            return result;
         });
 
         long result = future.get();
@@ -193,33 +190,25 @@ public class CompletableFutureTests {
 
     @Test
     public void test_thenCombine() throws Exception {
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(new Supplier<String>() {
-            @Override
-            public String get() {
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {}
-                System.out.println(Thread.currentThread().getName() + ":" + "future1");
-                return "hello";
-            }
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {}
+            System.out.println(Thread.currentThread().getName() + ":" + "future1");
+            return "hello";
         });
-        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(new Supplier<String>() {
-            @Override
-            public String get() {
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {}
-                System.out.println(Thread.currentThread().getName() + ":" + "future2");
-                return "sdd";
-            }
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {}
+            System.out.println(Thread.currentThread().getName() + ":" + "future2");
+            return "sdd";
         });
-        CompletableFuture<String> result = future1.thenCombine(future2, new BiFunction<String, String, String>() {
-            @Override
-            public String apply(String t, String u) {
-                System.out.println(Thread.currentThread().getName() + ":" + "result");
-                return t+" "+u;
-            }
+        CompletableFuture<String> result = future1.thenCombine(future2, (t, u) -> {
+            System.out.println(Thread.currentThread().getName() + ":" + "result");
+            return t+" "+u;
         });
         System.out.println(result.get());
+//        TimeUnit.SECONDS.sleep(3);
     }
 }

@@ -1,5 +1,6 @@
 package com.ql.springbootdemo;
 
+import com.ql.springbootdemo.bean.MyLazyBean;
 import com.ql.springbootdemo.event.CustomEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,9 @@ class SpringbootdemoApplicationTests {
 
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
+
+//	@Autowired
+//	private MyLazyBean myLazyBean;
 
 	@Test
 	void contextLoads() {
