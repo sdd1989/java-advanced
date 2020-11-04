@@ -4,13 +4,13 @@ import org.junit.Test;
 import org.springframework.util.StopWatch;
 
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author qiuliang@xiaomi.com
@@ -18,6 +18,8 @@ import java.util.function.Supplier;
  * @date 2020/8/4 9:52 上午
  **/
 public class CompletableFutureTests {
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Test
     public void testRunAsync() throws ExecutionException, InterruptedException {
@@ -210,5 +212,93 @@ public class CompletableFutureTests {
         });
         System.out.println(result.get());
 //        TimeUnit.SECONDS.sleep(3);
+    }
+
+    @Test
+    public void test_Compose() throws ExecutionException, InterruptedException {
+
+        CompletableFuture<String> completableFuture
+                = CompletableFuture.supplyAsync(() -> "Hello")
+                .thenCompose(s -> CompletableFuture.supplyAsync(() -> s + " World"));
+
+        assertEquals("Hello World", completableFuture.get());
+    }
+
+    @Test
+    public void test_thenApply2() throws ExecutionException, InterruptedException {
+
+        CompletableFuture<String> completableFuture
+                = CompletableFuture.supplyAsync(() -> "Hello")
+                .thenApply(s -> s + " World");
+
+        assertEquals("Hello World", completableFuture.get());
+    }
+
+    @Test
+    public void test_exception() throws ExecutionException, InterruptedException {
+        CompletableFuture future1 = CompletableFuture.runAsync(() -> {
+            if (1 == 1) {
+                throw new RuntimeException();
+            }
+        }).whenComplete((t, u) -> {
+            if (u != null) {
+                u.printStackTrace();
+            }
+        });
+
+        CompletableFuture future2 = CompletableFuture.runAsync(() -> {
+            if (1 == 1) {
+                throw new RuntimeException();
+            }
+        }).whenComplete((t, u) -> {
+            if (u != null) {
+                u.printStackTrace();
+            }
+        });
+
+        CompletableFuture.allOf(future1, future2).whenComplete((t, u) -> {
+            if (u != null) {
+                u.printStackTrace();
+            }
+//            if (1 == 1) {
+//                throw new RuntimeException();
+//            }
+        }).exceptionally(throwable -> {
+//            throwable.printStackTrace();
+            return null;
+        }).join();
+
+    }
+
+    @Test
+    public void test() throws ExecutionException, InterruptedException {
+        long start = System.currentTimeMillis();
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(()->{
+            System.out.println(Thread.currentThread().getName());
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        }, executorService);
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(()->{
+            System.out.println(Thread.currentThread().getName());
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 2;
+        }, executorService);
+//        List<CompletableFuture<Integer>> futures = Lists.newArrayList(future1, future2);
+//        futures.forEach(complete -> complete.whenComplete((r,e)->{
+//            if (e != null) {
+//                System.err.println(e);
+//            }
+//        }).join());
+        CompletableFuture.allOf(future1, future2).whenComplete((r,e) -> {
+            System.out.println("cost:" + (System.currentTimeMillis() - start));
+        }).join();
     }
 }

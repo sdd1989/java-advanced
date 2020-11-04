@@ -1,11 +1,18 @@
 package com.ql;
 
+import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * @author qiuliang@xiaomi.com
@@ -55,8 +62,21 @@ public class LamdaTest {
         System.out.println(s3.get());
     }
 
-    public class Student {
-
+    @Test
+    public void test_GroupingBy() {
+        List<Student> students = Lists.newArrayList(new Student("sdd", 23), new Student("sdd", 22)
+        , new Student("gml", 22));
+        Map<String, List<Student>> map = students.stream().collect(Collectors.groupingBy(e -> e.getName()));
+        System.out.println(map);
     }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public class Student {
+        private String name;
+        private Integer age;
+    }
+
 
 }

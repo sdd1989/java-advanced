@@ -72,6 +72,24 @@
 			<version>3.1.0</version>
 		</dependency>
 		<!--shardingsphere end-->
+		<!-- 引入 Resilience4j Starter 相关依赖，并实现对其的自动配置 -->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot2</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<!-- 引入 Aspectj 依赖，支持 AOP 相关注解、表达式等等 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.5</version>
+		</dependency>
     </dependencies>
 
 	<build>
